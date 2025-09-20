@@ -7,7 +7,7 @@ contract BuyteaContract is Ownable {
 
    mapping(address => uint256) unclaimedBalances;
 
-   uint256 public feePercent = 50;
+   uint256 public feePercent = 85;
 
    uint256 totalBalance;
    uint256 charges = 0;
