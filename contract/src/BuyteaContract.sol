@@ -7,7 +7,7 @@ contract BuyteaContract is Ownable {
 
    mapping(address => uint256) unclaimedBalances;
 
-   uint256 public feePercent = 85;
+   uint256 public feePercent = 50;
 
    uint256 totalBalance;
    uint256 charges = 0;
@@ -24,11 +24,11 @@ contract BuyteaContract is Ownable {
       return totalBalance;
    }
 
-   function viewCharge() public view returns (uint256) {
+   function viewCharge() public onlyOwner() view returns (uint256) {
       return charges;
    }
 
-   function getTeaReward(address _address) public payable {
+   function addTeaReward(address _address) public payable {
       require(msg.value > 0);
       unclaimedBalances[_address] += msg.value;
       totalBalance += msg.value;
