@@ -6,7 +6,7 @@ function BuyForm() {
    const [name, setName] = useState("");
    const [message, setMessage] = useState("");
    const pricePerTea = 60; // ₹60 per tea
-   const total = isNaN(count) ? 0 : count * pricePerTea;
+   const total = isNaN(count) ? 1 : count * pricePerTea;
 
 
    const handleSubmit = (e: FormEvent) => {
@@ -31,20 +31,19 @@ function BuyForm() {
          onSubmit={handleSubmit}
          className="max-w-md mx-auto space-y-6 "
       >
-
-         <h2 className="text-xl font-semibold">
+         <h2 className="text-2xl font-semibold">
             Buy Nikunj Makwana a Tea 🍵
          </h2>
 
          <div className="flex items-center justify-center space-x-4 bg-purple-50 border border-purple-300 rounded-xl px-3 py-4">
-            <span className="text-4xl">🍵</span>
+            <span className="text-2xl sm:text-4xl">🍵</span>
             <div className="flex space-x-3">
                {[1, 3, 5].map((num) => (
                <button
                   type="button"
                   key={num}
                   onClick={() => setCount(num)}
-                  className={`px-5 py-3 transition-all duration-300 outline-0 rounded-full border text-lg  ${
+                  className={`px-3 md:px-5 py-0.5 md:py-3 transition-all duration-300 outline-0 rounded-full border text-lg  ${
                      count === num
                      ? "bg-purple-400 text-white font-semibold border-purple-400"
                      : "text-purple-600 border-gray-300 hover:bg-purple-100"
@@ -65,7 +64,7 @@ function BuyForm() {
                         setCount(Number(value));
                      }
                   }}
-                  className="w-12 px-2 py-2 rounded-lg border border-gray-300 text-center outline-0"
+                  className="w-7 md:w-12 px-2 py-1.5 rounded-lg border border-gray-300 text-center outline-0"
                   />
             </div>
          </div>
