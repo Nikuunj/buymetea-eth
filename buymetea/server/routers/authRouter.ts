@@ -1,22 +1,13 @@
 import { router, publicProcedure } from "../trpc";
-import { email, string, z } from 'zod';
-import { get_user_profile, user_login, user_profile, user_schema } from "../types/user.schema";
+import { user_login, user_schema } from "../types/user.schema";
 
-const authRouter =  router({
+export const authRouter =  router({
 
    create_user: publicProcedure
       .input(user_schema)
       .mutation(async ({ input }) => {
          return {
-            msg : 'hi there'
-         }
-      }),
-
-   create_profile: publicProcedure
-      .input(user_profile)
-      .mutation(async () => {
-         return {
-            msg: 'create profile'
+            msg : 'create user'
          }
       }),
 
@@ -25,14 +16,6 @@ const authRouter =  router({
       .mutation(() => {
          return {
             msg: 'login user'
-         }
-      }),
-   
-   get_user_profile: publicProcedure 
-      .input(get_user_profile)
-      .query(() => {
-         return {
-            msg: 'user profile'
          }
       }),
 })
