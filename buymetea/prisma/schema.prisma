@@ -14,15 +14,25 @@ model User {
   password          String
   userProfile       UserProfile?
   transactions      Transaction[]
+  messages          Messages[]
 }
 
 model UserProfile {
-  id                Int            @id          @default(autoincrement())
+  userId            Int            @id
   name              String
   about             String
   links             String[]  
-  userId            Int            @unique   
   user              User           @relation(fields: [userId], references: [id])
+}
+
+model  Messages {
+  id                String         @id           @default(uuid())
+  userId            Int
+  name              String
+  say               String
+  transactionId     String          @unique
+  tx                Transaction                  @relation(fields: [transactionId], references: [id])
+  user              User                         @relation(fields: [userId], references: [id])
 }
 
 model  Transaction {
@@ -31,6 +41,8 @@ model  Transaction {
   to                Int
   amount            Int 
   tokenName         String
+  txHash            String 
   dateTime          DateTime                     @default(now())
   user              User                         @relation(fields: [to], references: [id])
+  messages          Messages?
 }   
