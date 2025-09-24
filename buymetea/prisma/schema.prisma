@@ -9,8 +9,7 @@ datasource db {
 
 model User {
   id                Int            @id          @default(autoincrement())
-  email             String        
-  address           String         
+  email             String         @unique
   password          String
   userProfile       UserProfile?
   transactions      Transaction[]
@@ -20,7 +19,9 @@ model User {
 
 model UserProfile {
   userId            Int            @id
-  name              String
+  name              String          
+  address           String         @unique
+  userName          String         @unique
   about             String
   links             String[]  
   user              User           @relation(fields: [userId], references: [id])
@@ -42,7 +43,7 @@ model  Transaction {
   to                Int
   amount            Int 
   tokenName         String
-  txHash            String 
+  txHash            String        
   dateTime          DateTime                     @default(now())
   user              User                         @relation(fields: [to], references: [id])
   messages          Messages?

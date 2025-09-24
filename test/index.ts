@@ -9,19 +9,16 @@ async function pollBlock(blockNumber: number) {
       console.log("Block not found");
       return;
    }
-
-   // // Filter by `from` address
-   // const targetAddress = "0x11b0E7Bef4046dD43b09489926F30514584B1161".toLowerCase();
-   // const filteredTxs = block.transactions.filter(
-   //    (tx) => tx.from.toLowerCase() === targetAddress
-   // );
-
+   
    console.log("Filtered Transactions:");
    console.log(JSON.stringify(block, null, 2));
 }
 
 async function main() {
-   await pollBlock(23433513);
+   // await pollBlock(23433513);
+   const ss = '0x1ccC0Ad7b5e8809dC7bea698A6619C3522cf0099';
+   console.log(ss.length);
+   
 }
 
 main();
