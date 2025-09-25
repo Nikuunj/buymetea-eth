@@ -10,6 +10,7 @@ datasource db {
 model User {
   id                Int            @id          @default(autoincrement())
   email             String         @unique
+  userName          String         @unique
   password          String
   userProfile       UserProfile?
   transactions      Transaction[]
@@ -21,7 +22,6 @@ model UserProfile {
   userId            Int            @id
   name              String          
   address           String         @unique
-  userName          String         @unique
   about             String
   links             String[]  
   user              User           @relation(fields: [userId], references: [id])
