@@ -5,7 +5,7 @@ export const profileRouter =  router({
 
    create_profile: publicProcedure
       .input(user_profile)
-      .mutation(async () => {
+      .mutation(async ({ input, ctx }) => {
          return {
             msg: 'create profile'
          }
@@ -13,7 +13,7 @@ export const profileRouter =  router({
    
    get_user_profile: publicProcedure 
       .input(get_user_id)
-      .query(() => {
+      .query(async ({ input, ctx }) => {
          return {
             msg: 'get user profile'
          }

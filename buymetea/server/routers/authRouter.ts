@@ -5,7 +5,7 @@ export const authRouter =  router({
 
    create_user: publicProcedure
       .input(user_schema)
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
          return {
             msg : 'create user'
          }
@@ -13,7 +13,7 @@ export const authRouter =  router({
 
    login_user: publicProcedure
       .input(user_login)
-      .mutation(() => {
+      .mutation(async ({ input, ctx }) => {
          return {
             msg: 'login user'
          }

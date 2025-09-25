@@ -6,7 +6,7 @@ export const transactionRouter = router({
 
    txList: publicProcedure
       .input(get_user_id)
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
          return {
             msg: 'get all tx of user'
          }
@@ -14,7 +14,7 @@ export const transactionRouter = router({
 
    depositList: publicProcedure
       .input(get_user_id)
-      .query(async ({ input }) => {
+      .query(async ({ input, ctx }) => {
          return {
             msg: 'get all deposit of user'
          }
