@@ -1,5 +1,5 @@
 import { router, publicProcedure } from "../trpc";
-import { get_user_profile, user_profile } from "../types/user.schema";
+import { get_user_id, user_profile } from "../types/user.schema";
 
 export const profileRouter =  router({
 
@@ -12,7 +12,7 @@ export const profileRouter =  router({
       }),
    
    get_user_profile: publicProcedure 
-      .input(get_user_profile)
+      .input(get_user_id)
       .query(() => {
          return {
             msg: 'get user profile'
