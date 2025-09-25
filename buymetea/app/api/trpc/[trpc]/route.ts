@@ -7,7 +7,7 @@ function handler(req: Request) {
       endpoint: '/api/trpc',
       req,
       router: appRouter,
-      createContext: () => (prisma)
+      createContext: () => ({ prisma })
    });
 }
 export { handler as GET, handler as POST };
