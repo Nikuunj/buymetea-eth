@@ -3,11 +3,15 @@ import SuperJSON from 'superjson';
 import { prisma } from "@/prisma";
 
 export async function createContext() {
-  return { prisma };
+  return { prisma, userId: undefined as string | undefined };
 }
 
-export const t = initTRPC.context<typeof createContext>().create({
+export type Context = Awaited<ReturnType<typeof createContext>>;
+
+
+export const t = initTRPC.context<Context>().create({
    transformer: SuperJSON
 });
 export const router = t.router;
+export const middleware = t.middleware;
 export const publicProcedure = t.procedure;

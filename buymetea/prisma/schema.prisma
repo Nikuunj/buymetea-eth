@@ -32,7 +32,7 @@ model  Messages {
   userId            Int
   name              String
   say               String
-  transactionId     String          @unique
+  transactionId     String         @unique
   tx                Transaction                  @relation(fields: [transactionId], references: [id])
   user              User                         @relation(fields: [userId], references: [id])
 }

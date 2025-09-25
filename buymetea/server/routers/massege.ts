@@ -1,3 +1,4 @@
+import { isLogin } from "../middleware/auth";
 import { router, publicProcedure } from "../trpc";
 import { tx_id } from "../types/tx.schema";
 import { get_user_id_name } from "../types/user.schema";
@@ -5,14 +6,15 @@ import { get_user_id_name } from "../types/user.schema";
 export const massegeRouter =  router({
 
    getMsgList: publicProcedure
-      .input(get_user_id_name)
-      .mutation(async ({ input, ctx }) => {
+      .use(isLogin)
+      .query(async ({ input, ctx }) => {
          return {
             msg: 'get list of msg profile'
          }
       }),
    
    getMsgById: publicProcedure 
+      .use(isLogin)
       .input(tx_id)
       .query(async ({ input, ctx }) => {
          return {
