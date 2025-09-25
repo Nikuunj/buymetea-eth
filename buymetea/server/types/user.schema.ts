@@ -18,7 +18,7 @@ export const user_login = z.object({
    password: z.string().min(5)
 })
 
-export const get_user_id = z.object({
+export const get_user_id_name = z.object({
    user_id: z.number().optional(),
    user_name: z.string().optional(),
 }).refine((data) => data.user_id !== undefined || data.user_name !== undefined, {
