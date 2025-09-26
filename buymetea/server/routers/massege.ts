@@ -1,7 +1,6 @@
 import { isLogin } from "../middleware/auth";
 import { router, publicProcedure } from "../trpc";
 import { tx_id } from "../types/tx.schema";
-import { get_user_id_name } from "../types/user.schema";
 
 export const massegeRouter =  router({
 

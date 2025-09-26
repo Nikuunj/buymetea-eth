@@ -9,7 +9,7 @@ export const config = createConfig({
       injected(),
    ],
    transports: {
-      [sepolia.id]: http("https://eth-sepolia.g.alchemy.com/v2/e3fUoPqdyoLlCGWNHdY2lEOaovOsKddu"),
+      [sepolia.id]: http(process.env.RPC_URL),
    },
 })
 

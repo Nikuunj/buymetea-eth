@@ -1,5 +1,4 @@
 import { router, publicProcedure } from '../trpc'
-import { get_user_id_name } from '../types/user.schema'
 import { create_tx_deposit, create_tx_msg, tx_id } from '../types/tx.schema'
 import { isLogin } from '../middleware/auth'
 

@@ -1,8 +1,7 @@
 import { isLogin } from "../middleware/auth";
 import { router, publicProcedure } from "../trpc";
-import { get_user_id_name } from "../types/user.schema";
 
-export const massegeRouter =  router({
+export const depositRouter =  router({
 
    get_depositList: publicProcedure
       .use(isLogin)
