@@ -7,7 +7,6 @@ export const user_create_schema = z.object({
 })
 
 export const user_profile_schema = z.object({
-   userId: z.number(),
    name: z.string().min(3),
    address: z.string().length(42), 
    about: z.string().min(10),
