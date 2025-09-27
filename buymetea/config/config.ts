@@ -17,3 +17,5 @@ export const buymeatea_address = '0x54C43f12B26601CA01518c6611E0d6798e53972f';
 
 
 export const buymeatea_abi = BuyteaContract.abi;
+
+export const JWT_SECRET =  process.env.JWT_SECRET || "secret" 
