@@ -1,41 +1,25 @@
-import { router, publicProcedure } from '../trpc'
-import { create_tx_deposit, create_tx_msg, tx_id } from '../types/tx.schema'
-import { isLogin } from '../middleware/auth'
+import { router, publicProcedure } from '@/server/trpc'
+import { create_tx_deposit_schema, create_tx_msg_schema, tx_id } from '@/server/types/tx.schema'
+import { isLogin } from '@/server/middleware/auth'
+import { create_tx_deposit, create_tx_msg, get_tx_id, get_tx_list } from '@/server/action/transaction/transaction'
 
 export const transactionRouter = router({
 
    get_txList: publicProcedure
       .use(isLogin)
-      .query(async ({ input, ctx }) => {
-         return {
-            msg: 'get all tx of user'
-         }
-      }),
+      .query(get_tx_list),
 
    get_tx_id: publicProcedure
       .use(isLogin)
       .input(tx_id)
-      .query(async ({ input, ctx }) => {
-         return {
-            msg: 'retun user specifit tx'
-         }
-      }),
+      .query(get_tx_id),
    
 
    create_tx_msg: publicProcedure
-      .input(create_tx_msg)
-      .mutation(async ({ input, ctx }) => {
-         
-         return {
-            msg: 'create tx and msg of user'
-         }
-      }),
+      .input(create_tx_msg_schema)
+      .mutation(create_tx_msg),
    
-   create_tx_deposti: publicProcedure
-      .input(create_tx_deposit)
-      .mutation(async ({ input, ctx }) => {
-         return {
-            msg: 'create tx and deposit of user'
-         }
-      }),
+   create_tx_deposit: publicProcedure
+      .input(create_tx_deposit_schema)
+      .mutation(create_tx_deposit),
 })
