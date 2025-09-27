@@ -20,6 +20,7 @@ export const transactionRouter = router({
       .mutation(create_tx_msg),
    
    create_tx_deposit: publicProcedure
+      .use(isLogin)
       .input(create_tx_deposit_schema)
       .mutation(create_tx_deposit),
 })
