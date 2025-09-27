@@ -17,7 +17,7 @@ function Provider({ children }: { children: ReactNode }) {
                transformer: SuperJSON,
                url:
                   typeof window === "undefined"
-                  ? `${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000"}/api/trpc`
+                  ? `${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000/"}/api/trpc`
                   : "/api/trpc",
                headers() {
                   if (typeof window !== "undefined") {

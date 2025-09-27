@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { middleware } from "../trpc";
+import { middleware } from "@/server/trpc";
 
 export const isLogin = middleware(async ({ ctx, next }) => {
    const { userId } = ctx
