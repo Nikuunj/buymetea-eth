@@ -1,23 +1,17 @@
-import { isLogin } from "../middleware/auth";
-import { router, publicProcedure } from "../trpc";
-import { tx_id } from "../types/tx.schema";
+import { isLogin } from "@/server/middleware/auth";
+import { router, publicProcedure } from "@/server/trpc";
+import { tx_id } from "@/server/types/tx.schema";
+import { get_user_id_name_schema } from "@/server/types/user.schema";
+import { get_msg_id, get_msg_list } from "@/server/action/massege/massege";
 
 export const massegeRouter =  router({
 
    getMsgList: publicProcedure
-      .use(isLogin)
-      .query(async ({ input, ctx }) => {
-         return {
-            msg: 'get list of msg profile'
-         }
-      }),
+      .input(get_user_id_name_schema)
+      .query(get_msg_list),
    
    getMsgById: publicProcedure 
       .use(isLogin)
       .input(tx_id)
-      .query(async ({ input, ctx }) => {
-         return {
-            msg: 'get msg  detail'
-         }
-      }),
+      .query(get_msg_id),
 })

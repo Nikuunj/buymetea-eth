@@ -1,13 +1,10 @@
-import { isLogin } from "../middleware/auth";
-import { router, publicProcedure } from "../trpc";
+import { isLogin } from "@/server/middleware/auth";
+import { router, publicProcedure } from "@/server/trpc";
+import { deposit_list } from "@/server/action/deposit/deposit";
 
 export const depositRouter =  router({
 
    get_depositList: publicProcedure
       .use(isLogin)
-      .query(async ({ input, ctx }) => {
-         return {
-            msg: 'get all deposit of user'
-         }
-      }),
+      .query(deposit_list),
 })
