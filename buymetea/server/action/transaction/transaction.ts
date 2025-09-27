@@ -8,9 +8,13 @@ export const get_tx_list = async ({ ctx }: { ctx: Context }) => {
    try {
       const tx_list = await prisma.transaction.findMany({
          where: {
-            to: Number(userId)
-         }
-      })
+            to: Number(userId),
+         },
+         select: {
+            amount: true,
+            from: true
+         },
+      });
 
       if(!tx_list) {
          throw new TRPCError({ code: 'NOT_FOUND', message: 'tx not found' });
@@ -48,6 +52,8 @@ export const get_tx_id = async ({ input, ctx }: { input: tx_id_type, ctx: Contex
    }
 }
 
+
+// need to implement
 export const create_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
 
    try {
