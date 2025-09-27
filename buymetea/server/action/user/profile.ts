@@ -15,8 +15,13 @@ export const user_create_profile = async ({ ctx, input }: { input: user_profile_
             links: input.links
          }
       })
-   } catch(e) {
 
+      return {
+         profile,
+         message: 'profile is created'
+      }
+   } catch(e) {
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
 
