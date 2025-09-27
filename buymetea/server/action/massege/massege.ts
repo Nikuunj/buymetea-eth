@@ -10,8 +10,3 @@ export const get_msg_list = async ({ ctx, input }: { input: get_user_id_name_typ
 export const get_msg_id = async ({ ctx, input }: { input: tx_id_type, ctx: Context }) => {
 
 }
-
-
-export const create_msg = async ({ ctx }: { ctx: Context }) => {
-
-}
