@@ -1,6 +1,7 @@
 import { Context } from "@/server/trpc";
 import { create_tx_deposit_type, create_tx_msg_type, tx_id_type } from "@/server/types/tx.schema";
 import { TRPCError } from "@trpc/server";
+import { getAdd_TEA_TxDetails } from "./verify";
 
 export const get_tx_list = async ({ ctx }: { ctx: Context }) => {
    const { prisma, userId } = ctx;
@@ -52,16 +53,41 @@ export const get_tx_id = async ({ input, ctx }: { input: tx_id_type, ctx: Contex
    }
 }
 
+export const create_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
+   const { prisma } = ctx
+   try {
+
+      const detail_tx = await getAdd_TEA_TxDetails(tx_hash);
+      if(!detail_tx) {
+         throw new TRPCError({ code: 'PAYMENT_REQUIRED', message: 'not able to create tx' });  
+      }
+
+      const tx = await prisma.transaction.create({
+         data: {
+            from: detail_tx.from,
+            amount: Number(detail_tx.amount),
+            txHash: tx_hash,
+            to,
+            tokenName: detail_tx.token
+         }
+      })
+      return tx.id;
+   } catch(e) {
+      return ""
+   }
+}
 
 // need to implement
-export const create_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
-
+export const deposit_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
+   const { prisma } = ctx
    try {
+      
       return ""
    } catch(e) {
       return ""
    }
 }
+
 
 export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type, ctx: Context }) => {
    const { prisma } = ctx;
