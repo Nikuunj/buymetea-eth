@@ -6,7 +6,7 @@ function BuyForm() {
    const [name, setName] = useState("");
    const [message, setMessage] = useState("");
    const pricePerTea = 60; // ₹60 per tea
-   const total = isNaN(count) ? 1 : count * pricePerTea;
+   const total = isNaN(count) ? 0 : count * pricePerTea;
 
 
    const handleSubmit = (e: FormEvent) => {
