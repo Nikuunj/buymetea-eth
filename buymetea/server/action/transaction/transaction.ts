@@ -25,6 +25,9 @@ export const get_tx_list = async ({ ctx }: { ctx: Context }) => {
          tx_list
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
@@ -49,6 +52,9 @@ export const get_tx_id = async ({ input, ctx }: { input: tx_id_type, ctx: Contex
          tx
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
@@ -110,6 +116,9 @@ export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type,
          msg_id: msg.id
       }
    } catch (e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 
@@ -137,6 +146,9 @@ export const create_tx_deposit = async ({ input, ctx }: { input: create_tx_depos
          deposit_id: tx_id
       }
    } catch (e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }

@@ -19,6 +19,9 @@ export const deposit_list = async ({ ctx }: { ctx: Context }) => {
          deposit_list
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }

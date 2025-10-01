@@ -53,6 +53,9 @@ export const user_login = async ({ ctx, input }: { input: user_login_type, ctx: 
          message: "use logged"
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }

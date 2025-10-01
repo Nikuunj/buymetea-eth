@@ -21,6 +21,9 @@ export const user_create_profile = async ({ ctx, input }: { input: user_profile_
          message: 'profile is created'
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
@@ -57,7 +60,7 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
          profile
       }
    } catch(e) {
-       if (e instanceof TRPCError) {
+      if (e instanceof TRPCError) {
          throw e;
       }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });

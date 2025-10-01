@@ -38,6 +38,9 @@ export const get_msg_list = async ({ ctx, input }: { input: get_user_id_name_typ
          msg_list
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
@@ -62,6 +65,9 @@ export const get_msg_id = async ({ ctx, input }: { input: tx_id_type, ctx: Conte
          msg
       }
    } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
