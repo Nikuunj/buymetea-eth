@@ -1,4 +1,4 @@
-gimport { isLogin } from "@/server/middleware/auth";
+import { isLogin } from "@/server/middleware/auth";
 import { router, publicProcedure } from "@/server/trpc";
 import { deposit_list } from "@/server/action/deposit/deposit";
 

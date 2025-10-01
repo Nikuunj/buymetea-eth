@@ -22,7 +22,7 @@ function Provider({ children }: { children: ReactNode }) {
                headers() {
                   if (typeof window !== "undefined") {
                   const token = localStorage.getItem("token")
-                  return token ? { authorization: `Bearer ${token}` } : {}
+                  return token ? { authorization: `${token}` } : {}
                   }
                   return {}
                },

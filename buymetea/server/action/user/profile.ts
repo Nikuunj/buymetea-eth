@@ -31,8 +31,10 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
    try {
       const user = await prisma.user.findFirst({
          where: {
-            id: input.user_id,
-            userName: input.user_name
+            OR: [
+               { id: input.user_id },
+               { userName: input.user_name }
+            ]
          }
       })
 
@@ -55,6 +57,9 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
          profile
       }
    } catch(e) {
+       if (e instanceof TRPCError) {
+         throw e;
+      }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
 }
