@@ -12,6 +12,7 @@ export const get_tx_list = async ({ ctx }: { ctx: Context }) => {
             to: Number(userId),
          },
          select: {
+            id: true,
             amount: true,
             from: true
          },
