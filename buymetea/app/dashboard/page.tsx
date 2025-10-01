@@ -1,8 +1,8 @@
-import React from 'react'
+import MainDashbaord from "@/components/dashboard/MainDashbaord"
 
 function UserDashboard() {
    return (
-      <div>UserDashboard</div>
+      <MainDashbaord />
    )
 }
 

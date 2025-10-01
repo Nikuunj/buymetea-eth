@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button"
 import InputBox from "@/components/ui/InputBox"
 import Box from "@/components/User/Box"
 import { trpc } from "@/utils/trpc";
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useRef } from "react";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +18,11 @@ function CreateProfilePage() {
          console.log("signup success:", data.profile.userId, data.message);
       },
       onError: (err) => {
+         if(err.data?.code == "UNAUTHORIZED") {
+            router.push('/auth/login')  
+         }
          console.error("signup failed:", err.message);
+         return;
       },
    });
 
