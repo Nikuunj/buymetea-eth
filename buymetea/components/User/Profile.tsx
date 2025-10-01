@@ -1,10 +1,9 @@
 "use client"
 
 import { trpc } from "@/utils/trpc"
-import { useRouter } from "next/router";
 
-function Profile({ userid }: { userid: number }) {
-   const { data, isLoading, isError, error } = trpc.profile.get_user_profile.useQuery({ user_id: userid },
+function Profile({ userid, username }: { userid?: number, username?: string }) {
+   const { data, isLoading, isError, error } = trpc.profile.get_user_profile.useQuery({ user_id: userid, user_name: username },
       {
          refetchOnWindowFocus: false,
          refetchOnReconnect: false,
