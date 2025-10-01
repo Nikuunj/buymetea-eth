@@ -1,38 +1,49 @@
 "use client"
-import Button from "@/components/ui/Button";
-import InputBox from "@/components/ui/InputBox";
+import Button from "@/components/ui/Button"
+import InputBox from "@/components/ui/InputBox"
+import Box from "@/components/User/Box"
 import { trpc } from "@/utils/trpc";
-import { Box } from "lucide-react";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/navigation";
 
-function ProfileCreatePage() {
+
+function CreateProfilePage() {
    const ref = useRef<(HTMLInputElement | null)[]>(Array(3).fill(null));
+   const router = useRouter();
    const { address } = useAccount();
 
-   const creater_profileMutation = trpc.profile.create_profile.useMutation({
+   const create_profileMutation = trpc.profile.create_profile.useMutation({
       onSuccess: (data) => {
-         console.log("create profile success:", data, data.message);
+         console.log("signup success:", data.profile.userId, data.message);
       },
       onError: (err) => {
-         console.error("create profile failed:", err.message);
+         console.error("signup failed:", err.message);
       },
    });
 
-   function handleSubmit(e: FormEvent) {
-      e.preventDefault();
-
-      const arr = ref.current.map(val => val?.value);
-
-      creater_profileMutation.mutateAsync({
-         name: arr[0]!,
-         address: address!,
-         about: arr[1]!,
-         links: [arr[2]!]
-      })
+   const token = localStorage.getItem('token');
+   
+   if(!token) {
+      router.push('/auth/login')
+      return
    }
 
+   function handleSubmit(e: FormEvent) {
+      e.preventDefault()
+      const arr = ref.current.map(val => val?.value);
 
+      const name = arr[0];
+      const about = arr[1];
+      const links = arr[2];
+
+      create_profileMutation.mutateAsync({
+         name: name!,
+         address: address!,
+         about: about!,
+         links: [links!]
+      })
+   }
 
    return (
       <div className="flex gap-3">
@@ -48,7 +59,7 @@ function ProfileCreatePage() {
                   <div className="flex flex-col gap-6 justify-center h-full relative -top-0 md:-top-2">
                      
                      <InputBox refrence={(e) => ref.current[0] = e}
-                        typeOfIn={'email'}
+                        typeOfIn={'text'}
                         placeHolder={'Full name'}
                      />
                      
@@ -61,8 +72,7 @@ function ProfileCreatePage() {
                         typeOfIn={'text'}
                         placeHolder={'links'}
                      />
-                     <Button varient='default' size="md" 
-                     className="rounded-md w-full" handleClick={() => ''}>
+                     <Button varient='default' size="md" className="rounded-md w-full" handleClick={() => ''}>
                         Create Profile
                      </Button>
                   </div>
@@ -73,4 +83,6 @@ function ProfileCreatePage() {
    )
 }
 
-export default ProfileCreatePage
+
+// user mail , wallet address get by connnect using wallet not take by using input box and, user password. 
+export default CreateProfilePage
