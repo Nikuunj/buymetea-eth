@@ -42,7 +42,7 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
       })
 
       if(!user) {
-         throw new TRPCError({ code: 'NOT_FOUND', message: 'use not found' });
+         throw new TRPCError({ code: 'BAD_REQUEST', message: 'use not found' });
       }
 
       const profile = await prisma.userProfile.findFirst({

@@ -44,12 +44,13 @@ export const user_login = async ({ ctx, input }: { input: user_login_type, ctx: 
       const match = bcrypt.compareSync(input.password, user.password);
 
       if(!match) {
-         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'use not found' });
+         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'password not match' });
       }
 
       const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "24h" })
       return {
          token: token,
+         user_id: user.id,
          message: "use logged"
       }
    } catch(e) {
