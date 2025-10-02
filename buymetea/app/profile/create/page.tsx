@@ -43,7 +43,7 @@ function CreateProfilePage() {
 
       create_profileMutation.mutateAsync({
          name: name!,
-         address: address!,
+         address: "0x1ccC0Ad7b5e8809dC7bea698A6619C3522cf0099",
          about: about!,
          links: [links!]
       })
