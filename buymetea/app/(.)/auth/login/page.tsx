@@ -3,17 +3,25 @@ import Button from "@/components/ui/Button"
 import InputBox from "@/components/ui/InputBox"
 import Box from "@/components/User/Box"
 import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/navigation";
 import { FormEvent, useRef } from "react";
 
 function Loginpage() {
    const ref = useRef<(HTMLInputElement | null)[]>(Array(2).fill(null));
-
+   const router = useRouter();
    const loginMutation = trpc.auth.login_user.useMutation({
       onSuccess: (data) => {
          console.log("Login success:", data.token, data.message);
+         localStorage.setItem("token", data.token)
+         router.push(`/profile/${data.user_id}`);
+         return;
       },
       onError: (err) => {
          console.error("Login failed:", err.message);
+         if(err.data?.code === 'NOT_FOUND') {
+            router.push('/auth/signup');
+            return;
+         }
       },
    });
 

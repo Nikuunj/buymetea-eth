@@ -3,17 +3,23 @@ import Button from "@/components/ui/Button"
 import InputBox from "@/components/ui/InputBox"
 import Box from "@/components/User/Box"
 import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/navigation";
 import { FormEvent, useRef } from "react";
 
 function SignupPage() {
    const ref = useRef<(HTMLInputElement | null)[]>(Array(3).fill(null));
-
+   const router = useRouter();
    const signupMutation = trpc.auth.create_user.useMutation({
       onSuccess: (data) => {
          console.log("signup success:", data.user_id, data.message);
+         router.push('/auth/login');
       },
       onError: (err) => {
          console.error("signup failed:", err.message);
+         if(err.data?.code === 'CONFLICT') {
+            router.push('/auth/login');
+            return;
+         }
       },
    });
 
