@@ -12,8 +12,8 @@ function Loginpage() {
    const loginMutation = trpc.auth.login_user.useMutation({
       onSuccess: (data) => {
          console.log("Login success:", data.token, data.message);
-         localStorage.setItem("token", data.token)
-         router.push(`/profile/${data.user_id}`);
+         localStorage.setItem("token",`Bearer ${data.token}`)
+         router.push(`/dashboard`);
          return;
       },
       onError: (err) => {
