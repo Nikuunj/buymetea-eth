@@ -60,49 +60,38 @@ export const get_tx_id = async ({ input, ctx }: { input: tx_id_type, ctx: Contex
    }
 }
 
-export const create_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
+export const create_tx = async ({ ctx, input }: { ctx: Context, input: create_tx_msg_type, }) => {
    const { prisma } = ctx
-   try {
 
-      const detail_tx = await getAdd_TEA_TxDetails(tx_hash);
-      if(!detail_tx) {
-         throw new TRPCError({ code: 'PAYMENT_REQUIRED', message: 'not able to create tx' });  
+   const detail_tx = await getAdd_TEA_TxDetails(input.txHash);
+   if(!detail_tx) {
+      throw new TRPCError({ code: 'PAYMENT_REQUIRED', message: 'Not able to create transaction' });  
+   }
+
+   if(detail_tx.to !== input.to_address) {
+      throw new TRPCError({ code: 'FORBIDDEN', message: 'Invalid recipient address' });  
+   }
+   if(detail_tx.amount !== input.amount.toString()) {
+      throw new TRPCError({ code: 'BAD_REQUEST', message: 'Amount mismatch' });  
+   }
+   const tx = await prisma.transaction.create({
+      data: {
+         from: detail_tx.from,
+         amount: Number(detail_tx.amount),
+         txHash: input.txHash,
+         to: input.toUserId,
+         tokenName: detail_tx.token
       }
-
-      const tx = await prisma.transaction.create({
-         data: {
-            from: detail_tx.from,
-            amount: Number(detail_tx.amount),
-            txHash: tx_hash,
-            to,
-            tokenName: detail_tx.token
-         }
-      })
-      return tx.id;
-   } catch(e) {
-      return ""
-   }
-}
-
-// need to implement
-export const deposit_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
-   const { prisma } = ctx
-   try {
-      
-      return ""
-   } catch(e) {
-      return ""
-   }
+   })
+   return tx.id;
 }
 
 
 export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type, ctx: Context }) => {
    const { prisma } = ctx;
    try {
-      const tx_id = await create_tx({ ctx, tx_hash: input.txHash, amount: input.amount, to: input.toUserId })
-      if(!tx_id) {
-         throw new TRPCError({ code: 'TIMEOUT', message: 'not able to create tx' });
-      }
+      const tx_id = await create_tx({ ctx, input })
+      
       const msg = await prisma.messages.create({
          data: {
             userId: input.toUserId,
@@ -122,29 +111,38 @@ export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type,
       }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
+}
 
-
+// need to implement
+export const deposit_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
+   const { prisma } = ctx
+   try {
+      
+      return ""
+   } catch(e) {
+      return ""
+   }
 }
 
 export const create_tx_deposit = async ({ input, ctx }: { input: create_tx_deposit_type, ctx: Context }) => {
    const { prisma, userId } = ctx;
    try {
-      const tx_id = await create_tx({ ctx, tx_hash: input.txHash, amount: input.amount, to: Number(userId) })
+      // const tx_id = await create_tx({ ctx, input })
       
-      if(!tx_id) {
-         throw new TRPCError({ code: 'TIMEOUT', message: 'not able to create tx' });
-      }
+      // if(!tx_id) {
+      //    throw new TRPCError({ code: 'TIMEOUT', message: 'not able to create tx' });
+      // }
 
       const deposit = await prisma.deposit.create({
          data: {
-            transactionId: tx_id,
+            transactionId: "tx_id",
             userId: Number(userId)
          }
       })
 
       return {
          message: 'tx and deposit created',
-         deposit_id: tx_id
+         deposit_id: "tx_id"
       }
    } catch (e) {
       if (e instanceof TRPCError) {
