@@ -1,38 +1,52 @@
 'use client'
-import { FormEvent, useState } from "react";
 
-function BuyForm() {
+import { FormEvent, useEffect, useState } from "react";
+import { useAccount, useWriteContract } from "wagmi";
+import Button from "../ui/Button";
+import ConnectBtn from "../ui/ConnectBtn";
+import { Disconnect } from "../ui/Disconnect";
+import { buymeatea_abi, buymeatea_address } from "@/config/config";
+import { parseEther } from "viem";
+
+function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: string, u_id: number }) {
    const [count, setCount] = useState(1);
+   const { writeContractAsync } = useWriteContract()
    const [name, setName] = useState("");
    const [message, setMessage] = useState("");
    const pricePerTea = 60; // ₹60 per tea
    const total = isNaN(count) ? 0 : count * pricePerTea;
+   const { address } = useAccount();
 
 
-   const handleSubmit = (e: FormEvent) => {
-      e.preventDefault();
-
+   const handleSubmit = async () => {
       const formData = {
          name,
          message,
          count,
          total,
       };
+      const eth = parseEther('0.0001');
 
+      const a = await writeContractAsync({
+         address: buymeatea_address,
+         abi: buymeatea_abi,
+         functionName: 'addTeaReward',
+         args: [u_address],
+         value: eth
+      })
       console.log("Form Submitted:", formData);
 
       setName("");
       setMessage("");
       setCount(1);
    };
-
+   
    return (
-      <form
-         onSubmit={handleSubmit}
+      <div
          className="max-w-md mx-auto space-y-6 "
       >
          <h2 className="text-2xl font-semibold">
-            Buy Nikunj Makwana a Tea 🍵
+            Buy {u_name} a Tea 🍵
          </h2>
 
          <div className="flex items-center justify-center space-x-4 bg-purple-50 border border-purple-300 rounded-xl px-3 py-4">
@@ -83,17 +97,19 @@ function BuyForm() {
             rows={4}
             onChange={(e) => setMessage(e.target.value)}
             className="w-full px-4 py-3 transition-all duration-300
-            bg-gray-200 focus:bg-white rounded-lg outline-0 focus:ring-2 focus:ring-purple-400"
+            bg-gray-200 focus:bg-white rounded-lg outline-0 focus:ring-2 focus:ring-purple-400 
+            overflow-hidden resize-none"
             />
 
-         {/* Tip button */}
-         <button
-         type="submit"
-         className="w-full py-3 rounded-full bg-purple-500 hover:bg-purple-600 text-white font-semibold shadow-md transition"
-         >
-            Tip ₹{total}
-         </button>
-      </form>
+         {
+            address ? 
+            <Button varient='tip' 
+               size="md" className="rounded-full w-full" 
+               handleClick={handleSubmit} >
+                  Total {total}
+            </Button> : <ConnectBtn>Connect</ConnectBtn>
+         }
+      </div>
    );
 }
 
