@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Button from "../ui/Button"
 import { StarIcon } from 'lucide-react';
 
@@ -25,9 +26,11 @@ function Hero() {
          </div>
 
          <div className="space-y-7">
-            <Button className={`text-xl rounded-full font-semibold`} size='lg' varient='default'>
-               Start my page
-            </Button>
+            <Link href={'/auth/signup'}>
+               <Button className={`text-xl rounded-full font-semibold`} size='lg' varient='default'>
+                  Start my page
+               </Button>
+            </Link>
 
             <p className="text-sm sm:text-base font-normal px-5 sm:px-0 
             max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl  text-balance">
