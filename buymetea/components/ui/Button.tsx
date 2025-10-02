@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 
 interface ButtonProps {
    children: ReactNode;
-   varient: 'none' | 'default' | 'outline' | 'shine' | 'submit';
-   size: 'sm' | 'md' | 'lg';
+   varient: 'none' | 'default' | 'outline' | 'shine' | 'submit'| 'tip';
+   size: 'sm' | 'md' | 'lg' | 'none';
    className?: string;
    handleClick?: () => void;
 }
@@ -15,12 +15,14 @@ function Button({ children, className, varient, size, handleClick }: ButtonProps
    const style = {
       none: 'hover:bg-green-100',
       default: 'bg-amber-300 hover:bg-amber-400/90',
-      outline: 'border-2 border-green-300',
+      outline: 'border-2 border-gray-400',
+      tip: 'bg-purple-500 hover:bg-purple-600 text-white font-semibold shadow-md',
       shine: '',
       submit: ''
    }
 
    const sizes = {
+      none: 'p-0',
       sm: 'px-4 py-3',
       md: 'px-15 py-2.5',
       lg: 'px-13 py-5'
