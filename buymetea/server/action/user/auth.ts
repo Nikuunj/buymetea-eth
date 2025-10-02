@@ -50,7 +50,7 @@ export const user_login = async ({ ctx, input }: { input: user_login_type, ctx: 
       const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "24h" })
       return {
          token: token,
-         user_id: user.id,
+         username: user.userName,
          message: "use logged"
       }
    } catch(e) {

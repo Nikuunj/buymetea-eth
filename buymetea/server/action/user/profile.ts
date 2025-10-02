@@ -48,6 +48,12 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
       const profile = await prisma.userProfile.findFirst({
          where: {
             userId: user.id
+         },
+         select: {
+            name: true,
+            address: true,
+            about: true,
+            links: true
          }
       })
 
