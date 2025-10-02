@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
+import buy_abi from './BuyteaContract.json';
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.RPC);
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 
 const ERC20_ABI = [
   "event Transfer(address indexed from, address indexed to, uint256 value)",
@@ -54,10 +55,39 @@ async function getTxDetails(txHash: string) {
 }
 
 async function main() {
-   // 0x69d797dbdf03d9c7b0a7dc5b801d30df57001b2972e2412226dd6b2da85992dc
-   // 0x140b3cba8bdc5fe30d214d2d329a1b51ef4ef58fd7af5043ea7ff1fb3e3c6f4b
-  const txHash = "0x69d797dbdf03d9c7b0a7dc5b801d30df57001b2972e2412226dd6b2da85992dc";
-  await getTxDetails(txHash);
+// 0x227665321a81adfe5368a442838dbc87b4464aa2c63d745e0af4e5045dc1e2e7
+  const txHash = "0x227665321a81adfe5368a442838dbc87b4464aa2c63d745e0af4e5045dc1e2e7";
+  await getTxDetails1(txHash);
+}
+
+const CONTRACT_ABI = [
+  "function addTeaReward(address _address) payable"
+];
+
+const CONTRACT_ADDRESS = "0x54C43f12B26601CA01518c6611E0d6798e53972f"
+
+async function getTxDetails1(txHash: string) {
+  const tx = await provider.getTransaction(txHash);
+
+  if (!tx) {
+    console.log("Transaction not found");
+    return;
+  }
+
+  const iface = new ethers.utils.Interface(CONTRACT_ABI);
+
+  try {
+    const decoded = iface.parseTransaction({ data: tx.data, value: tx.value });
+    console.log('From', tx.from)
+    console.log("Function called:", decoded.name);
+    console.log("_address param:", decoded.args._address);
+    console.log("Value (ETH):", ethers.utils.formatEther(tx.value));
+  } catch (err) {
+    console.log("Not an addTeaReward tx:", err);
+  }
 }
 
 main();
+
+
+// 0x227665321a81adfe5368a442838dbc87b4464aa2c63d745e0af4e5045dc1e2e7
