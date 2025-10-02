@@ -17,10 +17,6 @@ function Profile({ userid, username }: { userid?: number, username?: string }) {
    }
 
    if (isError) {
-      if(error.data?.code === 'NOT_FOUND') {
-         router.push('/profile/create')
-         return;
-      }
       return <div>Error: {error.message}</div>
    }
 
