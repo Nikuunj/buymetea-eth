@@ -8,7 +8,7 @@ export const user_create_schema = z.object({
 
 export const user_profile_schema = z.object({
    name: z.string().min(3),
-   address: z.string().length(42), 
+   address: z.string().length(42).startsWith('0x'), 
    about: z.string().min(10),
    links: z.array(z.string().url())
 });
