@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const create_tx_msg_schema = z.object({
    toUserId: z.number(),
+   to_address: z.string().length(42),
    amount: z.number().nonnegative(),
    txHash: z.string().length(66),
    name: z.string(),
@@ -11,6 +12,7 @@ export const create_tx_msg_schema = z.object({
 export const create_tx_deposit_schema = z.object({
    userId: z.number(),
    amount: z.number().nonnegative(),
+   to_address: z.string().length(42),
    txHash: z.string().length(66)
 })
 
