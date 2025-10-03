@@ -1,14 +1,14 @@
 import ListBox from "./ListBox"
 
-function TxList({ to }: { to: string }) {
+function TxList({ id, amount, from, tokenName }: { id: string, amount: number, from: string, tokenName: string }) {
    return (
-      <ListBox to={`transaction/${to}`}>
+      <ListBox to={`transaction/${id}`}>
          <div className="flex justify-between">
-               <span>tx id</span>
-               <span>amont</span>
+               <span>{id}</span>
+               <span>{amount} {tokenName}</span>
             </div>
             <div className="flex justify-between">
-               <span>from</span>
+               <span>{from}</span>
                <span>view</span>
             </div>
       </ListBox>
