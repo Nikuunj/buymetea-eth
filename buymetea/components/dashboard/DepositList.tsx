@@ -1,11 +1,11 @@
 import ListBox from "./ListBox"
 
-function DepositList({ to }: { to: string }) {
+function DepositList({ id }: { id: string }) {
    
    return (
-      <ListBox to={`history/${to}`}>
+      <ListBox to={`history/${id}`}>
          <div className="flex justify-between">
-            <span>tx id</span>
+            <span>{id}</span>
             <span>view</span>
          </div>
       </ListBox>
