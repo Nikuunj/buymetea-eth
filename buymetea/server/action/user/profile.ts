@@ -73,15 +73,12 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
    }
 }
 
-export const user_get_full_profile = async ({ ctx, input }: { input: get_user_id_name_type, ctx: Context }) => {
-   const { prisma } = ctx
+export const user_get_full_profile = async ({ ctx }: { ctx: Context }) => {
+   const { prisma, userId } = ctx
    try {
       const user = await prisma.user.findFirst({
          where: {
-            OR: [
-               { id: input.user_id },
-               { userName: input.user_name }
-            ]
+            id: Number(userId)
          },
          select: {
             id: true,

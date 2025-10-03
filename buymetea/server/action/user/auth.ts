@@ -47,7 +47,7 @@ export const user_login = async ({ ctx, input }: { input: user_login_type, ctx: 
          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'password not match' });
       }
 
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "24h" })
+      const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: "7D" })
       return {
          token: token,
          username: user.userName,

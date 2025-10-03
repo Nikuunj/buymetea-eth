@@ -16,6 +16,5 @@ export const profileRouter =  router({
 
    get_full_user_profile: publicProcedure 
       .use(isLogin)
-      .input(get_user_id_name_schema)
       .query(user_get_full_profile),
 })
