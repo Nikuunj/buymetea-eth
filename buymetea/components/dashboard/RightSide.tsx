@@ -18,10 +18,16 @@ function RightSide() {
    }
 
    if (isError) {
+      if(error.data?.code === 'UNAUTHORIZED') {
+         router.push('/auth/login')
+         return;
+      }
+      
       if(error.data?.code === 'BAD_REQUEST') {
          router.push('/auth/login')
          return;
       }
+
       if(error.data?.code === 'NOT_FOUND') {
          router.push('/profile/create')
          return;
@@ -35,7 +41,7 @@ function RightSide() {
    }
    
    return (
-      <div className="w-full col-span-9 h-full relative top-[20%]">
+      <div className="w-full">
          <TextWithHeader header="display name" text={data.name}/>
          <TextWithHeader header="username" text={data.userName}/>
          <TextWithHeader header="Wallet Address" text={data.address}/>
