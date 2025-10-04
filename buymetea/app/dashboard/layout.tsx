@@ -5,28 +5,27 @@ import Navbar from "@/components/NavFooter/Navbar";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react"
 
-function layout({ children }: { children: ReactNode }) {
+function Layout({ children }: { children: ReactNode }) {
    const router = useRouter();
-   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-   const [userName, setUserName] = useState<string | null>(null);
+   const [username, setUsername] = useState('');
 
-
-   
    useEffect(() => {
-      const token = localStorage.getItem('token');
-      const storedUserName = localStorage.getItem('userName');
+      if (typeof window !== "undefined") {
+         const token = localStorage.getItem("token");
+         const userName = localStorage.getItem("userName") || "";
 
-      if (!token) {
-         router.push('/auth/login');
-      } else {
-         setIsAuthenticated(true);
-         setUserName(storedUserName);
+         if (!token) {
+            router.push("/auth/login");
+            return;
+         }
+
+         setUsername(userName);
       }
-  }, [router]);
-  
+   }, [router]);
+
    return (
       <>
-         <Navbar isBuy={true} name={`@${userName}`}/>
+         <Navbar isBuy={true} name={`@${username}`} />
          <div className="grid grid-cols-11">
             <LeftSide />
             <MainDashbaord>
@@ -34,7 +33,7 @@ function layout({ children }: { children: ReactNode }) {
             </MainDashbaord>
          </div>
       </>
-   )
+   );
 }
 
-export default layout
+export default Layout;

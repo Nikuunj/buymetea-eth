@@ -28,12 +28,12 @@ export function Connectors({ handleClick }: { handleClick: () => void }) {
             {iconSrc &&
                (isDataUri ? (
                // fallback for base64/data URIs
-               <img
+               <Image
                   src={iconSrc}
-                  alt={connector.name}
                   width={27}
                   height={27}
-                  className="rounded"
+                  alt={connector.name}
+                  className='rounded'
                />
                ) : (
                // optimized for remote/local images

@@ -24,7 +24,7 @@ function MessagePage() {
       return <div>No Message found.</div>
    }
 
-   const renderMsg = data.msg_list.map(msg => <MsgList id={msg.id} name={msg.name} say={msg.say} />)
+   const renderMsg = data.msg_list.map(msg => <MsgList key={msg.id} id={msg.id} name={msg.name} say={msg.say} />)
    return (
       <div className="flex flex-col gap-4 w-full px-2 sm:px-10">
          {renderMsg}

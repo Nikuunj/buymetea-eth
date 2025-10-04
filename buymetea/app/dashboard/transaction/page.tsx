@@ -24,7 +24,7 @@ function TransactionPage() {
       return <div>No Transaction found.</div>
    }
 
-   const renderTxs = data.tx_list.map(tx => <TxList id={tx.id} amount={ethers.utils.formatEther(tx.amount)} from={tx.from} tokenName={tx.tokenName}/>)
+   const renderTxs = data.tx_list.map((tx) => <TxList key={tx.id} id={tx.id} amount={ethers.utils.formatEther(tx.amount)} from={tx.from} tokenName={tx.tokenName}/>)
    return (
       <div className="flex flex-col gap-4 w-full px-2 sm:px-10">
          {renderTxs}

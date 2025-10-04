@@ -22,7 +22,7 @@ function HistoryPage() {
    if (!data?.deposit_list.length) {
       return <div>No Deposit found.</div>
    }
-   const renderDeposit = data.deposit_list.map(deposit => <DepositList id={deposit.transactionId} />)
+   const renderDeposit = data.deposit_list.map(deposit => <DepositList key={deposit.transactionId} id={deposit.transactionId} />)
    return (
       <div className="flex flex-col gap-4 w-full px-2 sm:px-10">
          {renderDeposit}

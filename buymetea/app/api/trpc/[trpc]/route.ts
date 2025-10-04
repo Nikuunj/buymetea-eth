@@ -20,7 +20,7 @@ function handler(req: Request) {
                const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
                userId = decoded.userId;
             } catch (err) {
-               console.warn("Invalid JWT token");
+               console.warn("Invalid JWT token", err);
             }
          }
          return {

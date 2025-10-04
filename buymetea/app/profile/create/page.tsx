@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button"
 import InputBox from "@/components/ui/InputBox"
 import Box from "@/components/User/Box"
 import { trpc } from "@/utils/trpc";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 
@@ -13,6 +13,15 @@ function CreateProfilePage() {
    const router = useRouter();
    const { address } = useAccount();
 
+   useEffect(() => {
+      if (typeof window !== "undefined") {
+         const token = localStorage.getItem("token");
+         if (!token) {
+            router.push("/auth/login");
+            return;
+         }
+      }
+   }, [router]);
    const create_profileMutation = trpc.profile.create_profile.useMutation({
       onSuccess: (data) => {
          console.log("signup success:", data.profile.userId, data.message);
@@ -26,13 +35,6 @@ function CreateProfilePage() {
       },
    });
 
-   const token = localStorage.getItem('token');
-   
-   if(!token) {
-      router.push('/auth/login')
-      return
-   }
-
    function handleSubmit(e: FormEvent) {
       e.preventDefault()
       const arr = ref.current.map(val => val?.value);
@@ -43,7 +45,7 @@ function CreateProfilePage() {
 
       create_profileMutation.mutateAsync({
          name: name!,
-         address: "0x1ccC0Ad7b5e8809dC7bea698A6619C3522cf0099",
+         address: address!,
          about: about!,
          links: [links!]
       })
