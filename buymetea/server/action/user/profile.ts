@@ -53,7 +53,8 @@ export const user_get_profile = async ({ ctx, input }: { input: get_user_id_name
             name: true,
             address: true,
             about: true,
-            links: true
+            links: true,
+            userId: true
          }
       })
 

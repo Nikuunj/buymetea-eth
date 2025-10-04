@@ -4,7 +4,6 @@ import { trpc } from "@/utils/trpc"
 import { useRouter } from "next/navigation";
 
 function Profile({ userid, username }: { userid?: number, username?: string }) {
-   const router = useRouter();
    const { data, isLoading, isError, error } = trpc.profile.get_user_profile.useQuery({ user_id: userid, user_name: username },
       {
          refetchOnWindowFocus: false,
@@ -20,13 +19,13 @@ function Profile({ userid, username }: { userid?: number, username?: string }) {
       return <div>Error: {error.message}</div>
    }
 
-   if (!data) {
+   if (!data?.profile) {
       return <div>No profile data found.</div>
    }
 
     return (
       <div>
-         <h1>{JSON.stringify(data)} hi hi </h1>
+         <h1>{JSON.stringify(data.profile)}</h1>
       </div>
    )
 }
