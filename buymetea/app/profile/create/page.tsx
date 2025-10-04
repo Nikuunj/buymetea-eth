@@ -88,7 +88,7 @@ function CreateProfilePage() {
                      <p className="px-3 py-2 truncate">
                         {address ? address : 'Connect Wallet'} 
                      </p>
-                     <ConnectBtn size="none" className="p-1 px-3 h-full rounded-none"><PowerIcon className=""/></ConnectBtn>
+                     <ConnectBtn size="none" className="p-1 px-3 h-full rounded-none rounded-r-md"><PowerIcon className=""/></ConnectBtn>
                   </p> 
                   <Button varient='default' size="md" className="rounded-md w-full" handleClick={handleSubmit}>
                      Create Profile
