@@ -14,7 +14,7 @@ export const appRouter = router({
          }
       }),
    deposit: depositRouter,
-   massege: massegeRouter,
+   message: massegeRouter,
    tx: transactionRouter,
    auth: authRouter,
    profile: profileRouter
