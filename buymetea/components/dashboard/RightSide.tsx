@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import TextWithHeader from "../ui/TextWithHeader";
 import { useEffect, useState } from "react";
 import { readContract } from '@wagmi/core'
-import { buymeatea_abi, buymeatea_address, config } from "@/config/config";
+import { buymeatea_abi, buymeatea_address, config, NEXT_PUBLIC_API_URL } from "@/config/config";
 import { formatEther } from "viem";
+import { Share2 } from "lucide-react";
+import path from "path";
 
 function RightSide() {
    const router = useRouter();
@@ -63,6 +65,13 @@ function RightSide() {
    
    return (
       <div className="w-full">
+         <div className="fixed right-5 mt-3 flex items-center cursor-pointer" onClick={async () => {
+            const share = path.join(`${NEXT_PUBLIC_API_URL}/u/${data.userName}`);
+            await navigator.clipboard.writeText(share);
+            alert("Copy to clipboard")
+         }}>
+            <Share2 className="w-5.5 h-5.5"/>
+         </div>
          <TextWithHeader header="display name" text={data.name}/>
          <TextWithHeader header="username" text={data.userName}/>
          <TextWithHeader header="balance" text={balance}/>

@@ -8,7 +8,6 @@ import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
 import ConnectBtn from "@/components/ui/ConnectBtn";
 import { PowerIcon } from "lucide-react";
-import { Disconnect } from "@/components/ui/Disconnect";
 
 
 function CreateProfilePage() {
