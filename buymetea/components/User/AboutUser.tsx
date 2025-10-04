@@ -7,7 +7,7 @@ function AboutUser({ name, aboutText }: { name: string, aboutText: string }) {
          <h2 className="font-medium capitalize">
             About {name}
          </h2>
-         <p className=" whitespace-break-spaces text-gray-700 font-light">
+         <p className="whitespace-break-spaces text-gray-700 font-light">
          {aboutText}
          </p>
          <div>
