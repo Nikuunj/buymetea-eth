@@ -41,7 +41,7 @@ model  Transaction {
   id                String         @id           @default(uuid())
   from              String
   to                Int
-  amount            Int 
+  amount            BigInt 
   tokenName         String
   txHash            String        
   dateTime          DateTime                     @default(now())

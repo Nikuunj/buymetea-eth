@@ -27,6 +27,7 @@ export const get_msg_list = async ({ ctx, input }: { input: get_user_id_name_typ
             name: true,
             say: true,
          },
+         take: 5
       });
 
 
@@ -45,6 +46,38 @@ export const get_msg_list = async ({ ctx, input }: { input: get_user_id_name_typ
    }
 }
 
+
+export const get_msg_list_dashboard = async ({ ctx }: { ctx: Context }) => {
+   const { prisma, userId } = ctx;
+
+   try {
+
+      const msg_list = await prisma.messages.findMany({
+         where: {
+            userId: Number(userId)
+         },
+         select: {
+            name: true,
+            say: true,
+            id: true
+         },
+      });
+
+
+      if(!msg_list) {
+         throw new TRPCError({ code: 'NOT_FOUND', message: 'msg not found' });
+      }
+
+      return {
+         msg_list
+      }
+   } catch(e) {
+      if (e instanceof TRPCError) {
+         throw e;
+      }
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
+   }
+}
 
 export const get_msg_id = async ({ ctx, input }: { input: tx_id_type, ctx: Context }) => {
    const { prisma, userId } = ctx;
