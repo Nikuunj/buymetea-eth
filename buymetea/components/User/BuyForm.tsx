@@ -5,7 +5,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import Button from "../ui/Button";
 import ConnectBtn from "../ui/ConnectBtn";
 import { buymeatea_abi, buymeatea_address } from "@/config/config";
-import { parseEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import { trpc } from "@/utils/trpc";
 
 
@@ -14,8 +14,8 @@ function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: strin
    const { writeContractAsync } = useWriteContract()
    const [name, setName] = useState("");
    const [message, setMessage] = useState("");
-   const pricePerTea = 60; // ₹60 per tea
-   const total = isNaN(count) ? 0 : count * pricePerTea;
+   const pricePerTea = 0.001;
+   const total = isNaN(count) ? BigInt(0) :  parseEther((count * pricePerTea).toString());
    const [loading, setLoading] = useState<boolean>(false);
    const { address } = useAccount();
 
@@ -30,22 +30,26 @@ function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: strin
    });
 
 
-   const handleSubmit = async () => {
-      const eth = parseEther('0.00001');
+   const handleSubmit = async () => {      
       setLoading(true);
+
+      if(!name && !message) {
+         alert('Please fill data')
+         return
+      }
       try{
          const txHash = await writeContractAsync({
             address: buymeatea_address,
             abi: buymeatea_abi,
             functionName: 'addTeaReward',
             args: [u_address],
-            value: eth,
+            value: total,
          })
          
          await createTxMutation.mutateAsync({
             toUserId: Number(u_id),
             to_address: u_address,
-            amount: eth,
+            amount: total,
             txHash,
             name,
             say: message
@@ -127,7 +131,7 @@ function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: strin
             <Button varient='tip' 
                size="md" className="rounded-full w-full" 
                handleClick={handleSubmit} >
-                  Total {total}
+                  Total {formatEther(total)} ETH
             </Button> : <ConnectBtn>Connect</ConnectBtn>
          }
       </div>

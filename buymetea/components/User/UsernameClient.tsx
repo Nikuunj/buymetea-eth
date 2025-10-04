@@ -14,7 +14,7 @@ function UsernameClient({ username }: { username: string }) {
    );
 
    if (isLoading) {
-      return <div>Loading...</div>
+      return <div className='flex min-h-screen justify-center items-center'>Loading...</div>
    }
 
    if (isError) {
