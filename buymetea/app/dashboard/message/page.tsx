@@ -1,5 +1,6 @@
 "use client"
-import MsgList from "@/components/dashboard/MsgList"
+
+import MsgList from "@/components/dashboard/messages/MsgList";
 import { trpc } from "@/utils/trpc";
 
 function MessagePage() {
@@ -25,9 +26,9 @@ function MessagePage() {
 
    const renderMsg = data.msg_list.map(msg => <MsgList id={msg.id} name={msg.name} say={msg.say} />)
    return (
-      <>
+      <div className="flex flex-col gap-4 w-full px-2 sm:px-10">
          {renderMsg}
-      </>
+      </div>
    )
 }
 

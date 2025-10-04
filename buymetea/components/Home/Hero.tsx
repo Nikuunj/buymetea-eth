@@ -5,7 +5,7 @@ import { StarIcon } from 'lucide-react';
 function Hero() {
    const renderStar = Array(5).fill(0).map((v, i) => <StarIcon key={v + i} className="w-3 sm:w-5 h-3 sm:h-5 fill-emerald-700 text-emerald-700"/>)
    return (
-      <div className="relative top-0 sm:top-3 w-full min-h-screen mb-5  text-center flex flex-col gap-11 sm:gap-5  md:gap-7  xl:gap-10 justify-center items-center">
+      <div className="w-full min-h-screen mb-5 relative -top-8  text-center flex flex-col gap-11 sm:gap-5  md:gap-7  xl:gap-10 justify-center items-center">
          <p className="flex flex-col md:flex-row justify-center items-center gap-5 text-sm sm:text-base font-normal px-5 sm:px-0 
          max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl  text-balance">
             <span className="flex gap-2.5">
@@ -26,7 +26,7 @@ function Hero() {
          </div>
 
          <div className="space-y-7">
-            <Link href={'/auth/signup'}>
+            <Link href={'/auth/signup'} className="block">
                <Button className={`text-xl rounded-full font-semibold`} size='lg' varient='default'>
                   Start my page
                </Button>

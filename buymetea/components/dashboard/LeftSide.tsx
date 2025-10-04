@@ -9,14 +9,15 @@ import { motion } from "framer-motion";
 function LeftSide() {
    const router = useRouter();
    function logout() {
-      localStorage.removeItem('token');
       router.push('.')
+      localStorage.removeItem('token');
+      localStorage.removeItem('userName');
       return;
    }
    
    const renderLink = links.map((li, i) => <DashboardLink key={i + li.title} text={li.title} to={li.to} />)
    return (
-      <div className=" w-full min-h-screen col-span-2 px-12 py-14 border-r border-zinc-300/55 flex flex-col justify-between">
+      <div className=" w-full max-h-screen col-span-2 px-12 py-14 border-r border-zinc-300/80 flex flex-col justify-between">
          <div className="flex flex-col gap-2">
             {renderLink}
          </div>

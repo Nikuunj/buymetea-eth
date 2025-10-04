@@ -1,25 +1,39 @@
 "use client"
 import LeftSide from "@/components/dashboard/LeftSide"
 import MainDashbaord from "@/components/dashboard/MainDashbaord";
+import Navbar from "@/components/NavFooter/Navbar";
 import { useRouter } from "next/navigation";
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
 function layout({ children }: { children: ReactNode }) {
-   // const router = useRouter();
+   const router = useRouter();
+   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+   const [userName, setUserName] = useState<string | null>(null);
 
-   // const token = localStorage.getItem('token');
+
    
-   // if(!token) {
-   //    router.push('/auth/login')
-   //    return;
-   // }
+   useEffect(() => {
+      const token = localStorage.getItem('token');
+      const storedUserName = localStorage.getItem('userName');
+
+      if (!token) {
+         router.push('/auth/login');
+      } else {
+         setIsAuthenticated(true);
+         setUserName(storedUserName);
+      }
+  }, [router]);
+  
    return (
-      <div className="grid grid-cols-11">
-         <LeftSide />
-         <MainDashbaord>
-            {children}
-         </MainDashbaord>
-      </div>
+      <>
+         <Navbar isBuy={true} name={`@${userName}`}/>
+         <div className="grid grid-cols-11">
+            <LeftSide />
+            <MainDashbaord>
+               {children}
+            </MainDashbaord>
+         </div>
+      </>
    )
 }
 

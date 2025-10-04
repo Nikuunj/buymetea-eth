@@ -5,7 +5,7 @@ import Button from "../ui/Button"
 function Navbar({ isBuy, name }: { isBuy?: boolean, name?: string }) {
    const router = useRouter(); 
    return (
-      <nav className="absolute w-full  z-50 py-3.5 bg-white px-2 sm:px-10 flex justify-between items-center">
+      <nav className=" sticky top-0 w-full  z-50 py-3.5 bg-white border-b border-zinc-300/80  px-2 sm:px-10 flex justify-between items-center">
          <h1 className="dancing-script font-bold text-2xl sm:text-3xl">
             Buy me Tea
          </h1>

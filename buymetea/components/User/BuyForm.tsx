@@ -52,7 +52,7 @@ function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: strin
             toUserId: Number(u_id),
             to_address: u_address,
             amount: eth,
-            txHash: txHash,
+            txHash,
             name,
             say: message
          })

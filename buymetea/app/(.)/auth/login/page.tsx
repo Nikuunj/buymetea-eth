@@ -13,6 +13,7 @@ function Loginpage() {
       onSuccess: (data) => {
          console.log("Login success:", data.token, data.message);
          localStorage.setItem("token",`Bearer ${data.token}`)
+         localStorage.setItem('userName', data.username)
          router.push(`/dashboard`);
          return;
       },

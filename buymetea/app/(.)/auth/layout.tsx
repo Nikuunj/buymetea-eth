@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 
 function layout({ children }: { children: ReactNode }) {
    return (
-      <div className="flex justify-center items-center min-h-screen bg-green-50">
+      <div className="flex justify-center items-center min-h-screen bg-green-50 relative -top-8">
          {children}
       </div>
    )

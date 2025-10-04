@@ -1,5 +1,5 @@
 "use client"
-import DepositList from "@/components/dashboard/DepositList"
+import DepositList from "@/components/dashboard/history/DepositList";
 import { trpc } from "@/utils/trpc";
 
 function HistoryPage() {
@@ -24,9 +24,9 @@ function HistoryPage() {
    }
    const renderDeposit = data.deposit_list.map(deposit => <DepositList id={deposit.transactionId} />)
    return (
-      <>
+      <div className="flex flex-col gap-4 w-full px-2 sm:px-10">
          {renderDeposit}
-      </>
+      </div>
    )
 }
 
