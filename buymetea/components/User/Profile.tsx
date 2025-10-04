@@ -22,7 +22,8 @@ function Profile({ userid, username }: { userid?: number, username?: string }) {
       return <div>No profile data found.</div>
    }
 
-    return (
+
+   return (
       <div>
          <h1>{JSON.stringify(data.profile)}</h1>
       </div>
