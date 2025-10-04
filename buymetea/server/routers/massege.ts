@@ -2,7 +2,7 @@ import { isLogin } from "@/server/middleware/auth";
 import { router, publicProcedure } from "@/server/trpc";
 import { tx_id } from "@/server/types/tx.schema";
 import { get_user_id_name_schema } from "@/server/types/user.schema";
-import { get_msg_id, get_msg_list } from "@/server/action/message/message";
+import { get_msg_id, get_msg_list, get_msg_list_dashboard } from "@/server/action/message/message";
 
 export const massegeRouter =  router({
 
@@ -14,4 +14,8 @@ export const massegeRouter =  router({
       .use(isLogin)
       .input(tx_id)
       .query(get_msg_id),
+      
+   getMsgListForDashboard: publicProcedure
+      .use(isLogin)
+      .query(get_msg_list_dashboard),
 })
