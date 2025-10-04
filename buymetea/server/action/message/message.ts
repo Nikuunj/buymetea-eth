@@ -3,6 +3,28 @@ import { tx_id_type } from "@/server/types/tx.schema";
 import { get_user_id_name_type } from "@/server/types/user.schema";
 import { TRPCError } from "@trpc/server";
 
+interface MsgWithTx {
+   name: string;
+   say: string;
+   tx: {
+      from: string;
+      amount: bigint;
+      tokenName: string;
+      dateTime: Date;
+   };
+};
+
+interface FlatMsg {
+   name: string; 
+   say: string; 
+   from: string; 
+   amount: bigint; 
+   tokenName: string;
+   dateTime: Date;
+}
+
+
+
 export const get_msg_list = async ({ ctx, input }: { input: get_user_id_name_type, ctx: Context }) => {
    const { prisma } = ctx;
 
@@ -87,6 +109,17 @@ export const get_msg_id = async ({ ctx, input }: { input: tx_id_type, ctx: Conte
          where: {
             id: input.id,
             userId: Number(userId)
+         }, select: {
+            name: true,
+            say: true,
+            tx: {
+               select: {
+                  amount: true,
+                  tokenName: true,
+                  dateTime: true,
+                  from: true,
+               }
+            }
          }
        })
 
@@ -94,8 +127,9 @@ export const get_msg_id = async ({ ctx, input }: { input: tx_id_type, ctx: Conte
          throw new TRPCError({ code: 'NOT_FOUND', message: 'msg not found' });
       }
 
+      const flateMsg = flattenMsg(msg);
       return {
-         msg
+         msg: flateMsg
       }
    } catch(e) {
       if (e instanceof TRPCError) {
@@ -103,4 +137,15 @@ export const get_msg_id = async ({ ctx, input }: { input: tx_id_type, ctx: Conte
       }
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'An unspecified error occurred' });
    }
+}
+
+function flattenMsg(msg: MsgWithTx): FlatMsg {
+   return {
+      name: msg.name,
+      say: msg.say,
+      from: msg.tx.from,
+      amount: msg.tx.amount,
+      tokenName: msg.tx.tokenName,
+      dateTime: msg.tx.dateTime,
+   };
 }
