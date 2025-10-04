@@ -1,4 +1,4 @@
-import ListBox from "./ListBox"
+import ListBox from "../ListBox"
 
 function DepositList({ id }: { id: string }) {
    

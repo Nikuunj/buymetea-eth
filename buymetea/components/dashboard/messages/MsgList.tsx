@@ -1,4 +1,4 @@
-import ListBox from "./ListBox"
+import ListBox from "../ListBox"
 
 function MsgList({ id, name, say }: { id: string, name: string, say: string }) {
    return (
