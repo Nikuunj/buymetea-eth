@@ -63,22 +63,16 @@ export const get_tx_id = async ({ input, ctx }: { input: tx_id_type, ctx: Contex
 
 export const create_tx = async ({ ctx, input }: { ctx: Context, input: create_tx_msg_type, }) => {
    const { prisma } = ctx
-
-   console.log('hi');
    
    try {
       console.log(input.txHash);
       
       const detail_tx = await getAdd_TEA_TxDetails(input.txHash);
-   
-      console.log(detail_tx);
+
       
       if(!detail_tx) {
          throw new TRPCError({ code: 'PAYMENT_REQUIRED', message: 'Not able to create transaction' });  
       }
-   
-   
-   
    
       if(detail_tx.to !== input.to_address) {
          throw new TRPCError({ code: 'FORBIDDEN', message: 'Invalid recipient address' });  
@@ -97,7 +91,7 @@ export const create_tx = async ({ ctx, input }: { ctx: Context, input: create_tx
             tokenName: detail_tx.token
          }
       })
-      console.log('3');
+
       return tx.id;
    } catch(e) {
       if (e instanceof TRPCError) {
@@ -111,11 +105,8 @@ export const create_tx = async ({ ctx, input }: { ctx: Context, input: create_tx
 export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type, ctx: Context }) => {
    const { prisma } = ctx;
    try {
-      console.log(input.txHash);
-      console.log(input.amount);
+
       const tx_id = await create_tx({ ctx, input })
-      console.log(tx_id);
-      
       
       const msg = await prisma.messages.create({
          data: {
@@ -125,9 +116,6 @@ export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type,
             transactionId: tx_id
          }
       })    
-
-      console.log(msg);
-      
 
       return {
          message: 'msg and tx created',

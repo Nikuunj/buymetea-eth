@@ -43,7 +43,6 @@ async function fetchTransaction(txHash: string) {
 }
 
 export async function getAdd_TEA_TxDetails(txHash: string): Promise<TxType | null> {
-   console.log(txHash, "hi hi hi hi");
    
    try {
       const txData = await fetchTransaction(txHash);
@@ -52,10 +51,7 @@ export async function getAdd_TEA_TxDetails(txHash: string): Promise<TxType | nul
          console.log("Transaction not found");
          return null;
       }
-      
-      console.log("Block number:", txData.blockNumber);
-
-      // Check if transaction has value
+   
       const value = ethers.BigNumber.from(txData.value);
       
       if (value.gt(0)) {      
