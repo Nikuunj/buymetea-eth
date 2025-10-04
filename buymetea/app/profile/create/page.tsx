@@ -3,9 +3,12 @@ import Button from "@/components/ui/Button"
 import InputBox from "@/components/ui/InputBox"
 import Box from "@/components/User/Box"
 import { trpc } from "@/utils/trpc";
-import { FormEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
+import ConnectBtn from "@/components/ui/ConnectBtn";
+import { PowerIcon } from "lucide-react";
+import { Disconnect } from "@/components/ui/Disconnect";
 
 
 function CreateProfilePage() {
@@ -35,9 +38,12 @@ function CreateProfilePage() {
       },
    });
 
-   function handleSubmit(e: FormEvent) {
-      e.preventDefault()
+   function handleSubmit() {
       const arr = ref.current.map(val => val?.value);
+      if(!address) {
+         alert('please connect wallet');
+         return;
+      }
 
       const name = arr[0];
       const about = arr[1];
@@ -45,7 +51,7 @@ function CreateProfilePage() {
 
       create_profileMutation.mutateAsync({
          name: name!,
-         address: address!,
+         address: address,
          about: about!,
          links: [links!]
       })
@@ -61,28 +67,33 @@ function CreateProfilePage() {
                <div className="text-xl font-semibold text-emerald-800">
                   Create your profile
                </div>
-               <form onSubmit={handleSubmit}>
-                  <div className="flex flex-col gap-6 justify-center h-full relative -top-0 md:-top-2">
-                     
-                     <InputBox refrence={(e) => ref.current[0] = e}
-                        typeOfIn={'text'}
-                        placeHolder={'Full name'}
-                     />
-                     
-                     <InputBox refrence={(e) => ref.current[1] = e}
-                        typeOfIn={'text'}
-                        placeHolder={'About'}
-                     />
-                     
-                     <InputBox refrence={(e) => ref.current[2] = e}
-                        typeOfIn={'text'}
-                        placeHolder={'links'}
-                     />
-                     <Button varient='default' size="md" className="rounded-md w-full" handleClick={() => ''}>
-                        Create Profile
-                     </Button>
-                  </div>
-               </form>
+               <div className="flex flex-col gap-6 justify-center h-full relative -top-0 md:-top-2">
+                  
+                  <InputBox refrence={(e) => ref.current[0] = e}
+                     typeOfIn={'text'}
+                     placeHolder={'Full name'}
+                  />
+                  
+                  <InputBox refrence={(e) => ref.current[1] = e}
+                     typeOfIn={'text'}
+                     placeHolder={'About'}
+                  />
+                  
+                  <InputBox refrence={(e) => ref.current[2] = e}
+                     typeOfIn={'text'}
+                     placeHolder={'links'}
+                  />
+
+                  <p className="border max-w-56 min-w-56 text-base text-emerald-800 rounded-md  flex justify-between">
+                     <p className="px-3 py-2 truncate">
+                        {address ? address : 'Connect Wallet'} 
+                     </p>
+                     <ConnectBtn size="none" className="p-1 px-3 h-full rounded-none"><PowerIcon className=""/></ConnectBtn>
+                  </p> 
+                  <Button varient='default' size="md" className="rounded-md w-full" handleClick={handleSubmit}>
+                     Create Profile
+                  </Button>
+               </div>
             </div>
          </Box>
       </div>

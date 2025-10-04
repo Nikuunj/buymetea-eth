@@ -3,14 +3,14 @@ import Button from "./Button";
 import { XIcon } from "lucide-react";
 import { Connectors } from "./Connectors";
 
-function ConnectBtn({ children }: { children: ReactNode }) { 
+function ConnectBtn({ children, size = 'md', className }: { children: ReactNode, size?: "md" | "sm" | "lg" | "none", className?: string }) { 
    const [open, setOpen] = useState<boolean>(false);
    return (
       <div>
          <Button 
-         size="md"
+         size={size}
          varient="tip"
-         className="w-full rounded-full"
+         className={`w-full rounded-full ${className}`}
          handleClick={() => setOpen(true)}>
             {children}
          </Button>
