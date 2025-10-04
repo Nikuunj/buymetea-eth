@@ -1,12 +1,13 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { useAccount, useWriteContract } from "wagmi";
 import Button from "../ui/Button";
 import ConnectBtn from "../ui/ConnectBtn";
-import { Disconnect } from "../ui/Disconnect";
 import { buymeatea_abi, buymeatea_address } from "@/config/config";
 import { parseEther } from "viem";
+import { trpc } from "@/utils/trpc";
+
 
 function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: string, u_id: number }) {
    const [count, setCount] = useState(1);
@@ -15,7 +16,18 @@ function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: strin
    const [message, setMessage] = useState("");
    const pricePerTea = 60; // ₹60 per tea
    const total = isNaN(count) ? 0 : count * pricePerTea;
+   const [loading, setLoading] = useState<boolean>(false);
    const { address } = useAccount();
+
+   const createTxMutation = trpc.tx.create_tx_msg.useMutation({
+      onSuccess: (data) => {
+         console.log('data', data);
+         
+      },
+      onError: (err) => {
+         console.error("failed:", err);
+      },
+   });
 
 
    const handleSubmit = async () => {
@@ -25,26 +37,41 @@ function BuyForm({ u_address, u_name, u_id }: { u_address: string, u_name: strin
          count,
          total,
       };
-      const eth = parseEther('0.0001');
-
-      const a = await writeContractAsync({
-         address: buymeatea_address,
-         abi: buymeatea_abi,
-         functionName: 'addTeaReward',
-         args: [u_address],
-         value: eth
-      })
-      console.log("Form Submitted:", formData);
-
-      setName("");
-      setMessage("");
-      setCount(1);
+      const eth = parseEther('0.00001');
+      setLoading(true);
+      try{
+         const txHash = await writeContractAsync({
+            address: buymeatea_address,
+            abi: buymeatea_abi,
+            functionName: 'addTeaReward',
+            args: [u_address],
+            value: eth,
+         })
+         
+         await createTxMutation.mutateAsync({
+            toUserId: Number(u_id),
+            to_address: u_address,
+            amount: eth,
+            txHash: txHash,
+            name,
+            say: message
+         })
+         
+         setName("");
+         setMessage("");
+         setCount(1);
+      } catch(e) {
+         console.error("Error is ", e);
+      } finally {
+         setLoading(false);
+      }
    };
    
    return (
       <div
          className="max-w-md mx-auto space-y-6 "
       >
+         {loading && 'Loading...'}
          <h2 className="text-2xl font-semibold">
             Buy {u_name} a Tea 🍵
          </h2>

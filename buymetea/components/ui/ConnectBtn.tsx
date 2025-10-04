@@ -1,11 +1,10 @@
 import { ReactNode, useState } from "react"
-import { motion } from "framer-motion"
 import Button from "./Button";
 import { XIcon } from "lucide-react";
 import { Connectors } from "./Connectors";
 
 function ConnectBtn({ children }: { children: ReactNode }) { 
-   const [open, setOpen] = useState<boolean>(true);
+   const [open, setOpen] = useState<boolean>(false);
    return (
       <div>
          <Button 
