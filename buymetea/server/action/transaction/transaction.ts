@@ -1,7 +1,7 @@
 import { Context } from "@/server/trpc";
 import { create_tx_deposit_type, create_tx_msg_type, tx_id_type } from "@/server/types/tx.schema";
 import { TRPCError } from "@trpc/server";
-import { getAdd_TEA_TxDetails } from "./verify";
+import { getTEA_TxDetails } from "./verify";
 
 export const get_tx_list = async ({ ctx }: { ctx: Context }) => {
    const { prisma, userId } = ctx;
@@ -61,33 +61,34 @@ export const get_tx_id = async ({ input, ctx }: { input: tx_id_type, ctx: Contex
    }
 }
 
-export const create_tx = async ({ ctx, input }: { ctx: Context, input: create_tx_msg_type, }) => {
+export const create_tx = async ({ ctx, to_address, amount, txHash, toUserId }: 
+   { ctx: Context, to_address: string, amount: bigint, txHash: string, toUserId: number }) => {
    const { prisma } = ctx
    
    try {
-      console.log(input.txHash);
+      console.log(txHash);
       
-      const detail_tx = await getAdd_TEA_TxDetails(input.txHash);
+      const detail_tx = await getTEA_TxDetails(txHash);
 
       
       if(!detail_tx) {
          throw new TRPCError({ code: 'PAYMENT_REQUIRED', message: 'Not able to create transaction' });  
       }
    
-      if(detail_tx.to !== input.to_address) {
+      if(detail_tx.to !== to_address) {
          throw new TRPCError({ code: 'FORBIDDEN', message: 'Invalid recipient address' });  
       }
       
-      if(detail_tx.amount !== input.amount) {
+      if(detail_tx.amount !== amount) {
          throw new TRPCError({ code: 'BAD_REQUEST', message: 'Amount mismatch' });  
       }
 
       const tx = await prisma.transaction.create({
          data: {
             from: detail_tx.from,
-            amount: input.amount,
-            txHash: input.txHash,
-            to: input.toUserId,
+            amount: amount,
+            txHash: txHash,
+            to: toUserId,
             tokenName: detail_tx.token
          }
       })
@@ -105,8 +106,8 @@ export const create_tx = async ({ ctx, input }: { ctx: Context, input: create_tx
 export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type, ctx: Context }) => {
    const { prisma } = ctx;
    try {
-
-      const tx_id = await create_tx({ ctx, input })
+   
+      const tx_id = await create_tx({ ctx, to_address: input.to_address, amount: input.amount, txHash: input.txHash, toUserId: input.toUserId })
       
       const msg = await prisma.messages.create({
          data: {
@@ -129,36 +130,27 @@ export const create_tx_msg = async ({ input, ctx }: { input: create_tx_msg_type,
    }
 }
 
-// need to implement
-export const deposit_tx = async ({ ctx, tx_hash, amount, to }: { ctx: Context, tx_hash: string, amount: number, to: number }) => {
-   const { prisma } = ctx
-   try {
-      
-      return ""
-   } catch(e) {
-      return ""
-   }
-}
-
 export const create_tx_deposit = async ({ input, ctx }: { input: create_tx_deposit_type, ctx: Context }) => {
    const { prisma, userId } = ctx;
    try {
-      // const tx_id = await create_tx({ ctx, input })
+      // { ctx: Context, to_address: string, amount: bigint, txHash: string, toUserId: number }) => {
+
+      const tx_id = await create_tx({ ctx, to_address: input.to_address, amount: input.amount, txHash: input.txHash, toUserId: Number(userId) })
       
-      // if(!tx_id) {
-      //    throw new TRPCError({ code: 'TIMEOUT', message: 'not able to create tx' });
-      // }
+      if(!tx_id) {
+         throw new TRPCError({ code: 'TIMEOUT', message: 'not able to create tx' });
+      }
 
       const deposit = await prisma.deposit.create({
          data: {
-            transactionId: "tx_id",
+            transactionId: tx_id,
             userId: Number(userId)
          }
       })
 
       return {
          message: 'tx and deposit created',
-         deposit_id: "tx_id"
+         deposit_id: tx_id
       }
    } catch (e) {
       if (e instanceof TRPCError) {
