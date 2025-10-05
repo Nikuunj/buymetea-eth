@@ -101,15 +101,3 @@ export async function getTEA_TxDetails(txHash: string): Promise<TxType | null> {
    }
 }
 
-async function main() {
-   const a = await getTEA_TxDetails('0xf089f92cd6bfc6c7b36c4c0f3ab4f7b42350894b256f197e7f93fb849b9772a4')
-   console.log(a);
-   
-}
-
-main()
-
-// deposit
-// 0xb8d3d1374d523f9790f1f945bef98c44696aa11fc422e4c1bbad122034dddc90
-
-// 0xf089f92cd6bfc6c7b36c4c0f3ab4f7b42350894b256f197e7f93fb849b9772a4
