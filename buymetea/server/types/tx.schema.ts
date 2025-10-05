@@ -10,7 +10,6 @@ export const create_tx_msg_schema = z.object({
 })
 
 export const create_tx_deposit_schema = z.object({
-   userId: z.number(),
    amount: z.bigint().nonnegative(),
    to_address: z.string().length(42).startsWith('0x'),
    txHash: z.string().length(66).startsWith('0x')

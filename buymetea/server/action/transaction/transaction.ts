@@ -75,7 +75,7 @@ export const create_tx = async ({ ctx, to_address, amount, txHash, toUserId }:
          throw new TRPCError({ code: 'PAYMENT_REQUIRED', message: 'Not able to create transaction' });  
       }
    
-      if(detail_tx.to !== to_address) {
+      if(detail_tx.to.toLowerCase !== to_address.toLowerCase) {
          throw new TRPCError({ code: 'FORBIDDEN', message: 'Invalid recipient address' });  
       }
       
@@ -134,7 +134,8 @@ export const create_tx_deposit = async ({ input, ctx }: { input: create_tx_depos
    const { prisma, userId } = ctx;
    try {
       // { ctx: Context, to_address: string, amount: bigint, txHash: string, toUserId: number }) => {
-
+      console.log(userId);
+      
       const tx_id = await create_tx({ ctx, to_address: input.to_address, amount: input.amount, txHash: input.txHash, toUserId: Number(userId) })
       
       if(!tx_id) {
