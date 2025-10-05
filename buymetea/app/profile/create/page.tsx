@@ -11,7 +11,7 @@ import { PowerIcon } from "lucide-react";
 
 
 function CreateProfilePage() {
-   const ref = useRef<(HTMLInputElement | null)[]>(Array(3).fill(null));
+   const ref = useRef<(HTMLInputElement | HTMLTextAreaElement |null)[]>(Array(3).fill(null));
    const router = useRouter();
    const { address } = useAccount();
 
@@ -73,11 +73,18 @@ function CreateProfilePage() {
                      placeHolder={'Full name'}
                   />
                   
-                  <InputBox refrence={(e) => ref.current[1] = e}
+                  {/* <InputBox refrence={(e) => ref.current[1] = e}
                      typeOfIn={'text'}
                      placeHolder={'About'}
-                  />
+                  /> */}
                   
+                  <textarea
+                     ref={el =>{ref.current[1] = el}}
+                     placeholder="About..."
+                     rows={4}
+                     className="w-full border outline-0 px-3  py-2 text-base text-emerald-800 rounded-md
+                     overflow-hidden resize-none"
+                  />
                   <InputBox refrence={(e) => ref.current[2] = e}
                      typeOfIn={'text'}
                      placeHolder={'links'}

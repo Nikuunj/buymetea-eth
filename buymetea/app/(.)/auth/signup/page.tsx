@@ -39,7 +39,7 @@ function SignupPage() {
    }
 
    return (
-      <div className="flex gap-3">
+      <div className="flex gap-3 h-full">
          {/* <Box>
             <div className=" min-w-md"></div>
          </Box> */}
