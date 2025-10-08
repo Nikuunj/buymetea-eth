@@ -20,4 +20,4 @@ export const buymeatea_abi = BuyteaContract.abi;
 
 export const JWT_SECRET =  process.env.JWT_SECRET || "secret" 
 
-export const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL ||'http://localhost:3000'
+export const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
